@@ -1,6 +1,11 @@
+// ============================================================================
+// ImGui Menu Clone — Win32 + DirectX 11 Host Shell & Menu Layout
+// Author: Sharim Ali (https://github.com/SharimAli)
+// License: MIT
+// ============================================================================
 // main.cpp — host shell + menu layout.
 //
-// Everything visual lives in ui/. This file only: creates the blurred window,
+// Everything visual lives in ui/. This file creates the blurred window,
 // boots D3D11, loads fonts, and describes the layout.
 #include "imgui.h"
 #include "imgui_impl_win32.h"

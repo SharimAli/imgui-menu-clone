@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Crop and magnify a region of a screenshot for detail comparison.
+Author: Sharim Ali (https://github.com/SharimAli)
+License: MIT
 
 Reading a menu at 1:1 hides exactly the details that make a clone convincing:
 whether a knob is filled or a ring, a 1px decorative line, letter-spacing, the

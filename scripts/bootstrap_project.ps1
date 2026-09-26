@@ -4,6 +4,9 @@
   project from the skill template: toolchain check, ImGui fetch, fonts, icon header,
   and optional first build via MSBuild.
 
+  Author: Sharim Ali (https://github.com/SharimAli)
+  License: MIT
+
   NOTE: this file is deliberately ASCII-only. Windows PowerShell 5.1 reads .ps1
   files as ANSI unless they carry a UTF-8 BOM, so non-ASCII characters here
   break parsing on a default Windows box.

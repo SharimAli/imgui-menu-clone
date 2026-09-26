@@ -3,6 +3,14 @@
 > **Rebuild any Dear ImGui menu in clean C++ from a single screenshot.**  
 > Give your AI assistant a screenshot of an ImGui menu. Get back a fully buildable, pixel-accurate native Visual Studio (`.sln`) C++ project. No access to the original source code needed.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://microsoft.com/windows)
+[![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%2B-purple.svg)](https://visualstudio.microsoft.com/)
+[![ImGui](https://img.shields.io/badge/Dear%20ImGui-v1.91.9b-orange.svg)](https://github.com/ocornut/imgui)
+
+**Author:** [Sharim Ali](https://github.com/SharimAli)  
+**License:** [MIT License](LICENSE)
+
 ---
 
 ## ⚡ Why This Skill Exists
@@ -31,11 +39,68 @@ This skill eliminates guessing through a **disciplined 5-phase pipeline**:
 
 ## 🚀 Integration Guide for Major AI Platforms
 
-This repository is designed to work seamlessly across all major AI coding platforms. Follow the setup instructions below for your assistant of choice:
+This repository is designed to work seamlessly across all major AI coding platforms. Follow the setup instructions below for your platform:
 
 ---
 
-### 1. Google Antigravity (AGY)
+### 1. Claude Code (CLI)
+
+Claude Code discovers skills placed in its local skills directory.
+
+#### Install Path:
+* **Windows**: `%USERPROFILE%\.claude\skills\imgui-menu-clone\`
+* **macOS / Linux**: `~/.claude/skills/imgui-menu-clone/`
+
+#### Installation:
+```powershell
+# Windows PowerShell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills"
+Copy-Item -Recurse -Force "imgui-menu-clone" "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
+```
+
+#### How to Use in Claude Code:
+1. Start `claude` in your terminal.
+2. Provide a screenshot path or paste an image:
+   ```text
+   Clone this menu screenshot into a Visual Studio project: path/to/menu_shot.png
+   ```
+3. Claude Code detects the skill via `SKILL.md` frontmatter and executes the workflow.
+
+#### How to Uninstall:
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
+```
+
+---
+
+### 2. Claude Desktop (Anthropic Desktop App)
+
+You can use this skill with Claude Desktop via **Claude Projects** or custom instructions:
+
+#### Method A: Claude Projects (Recommended)
+1. In Claude Desktop, click **Projects** in the sidebar and create a new project (e.g. `ImGui Menu Cloner`).
+2. In **Project Knowledge**, upload the key skill files:
+   * `SKILL.md`
+   * `references/analysis-protocol.md`
+   * `references/detail-checklist.md`
+   * `references/widget-cookbook.md`
+   * `references/animation.md`
+   * `assets/template/ui/theme.h`
+3. In **Custom Instructions for this Project**, paste:
+   ```text
+   You are an expert ImGui engineer. When given a menu screenshot, follow the 5-phase pipeline in SKILL.md.
+   Never invent colors or metrics. First produce spec.md (Phase 1). Wait for confirmation (Phase 2).
+   Then generate theme.h and widget code adhering to the Win32 + D3D11 menu.sln template.
+   ```
+4. Drag and drop your menu screenshot into chat and prompt:
+   > *"Analyze this menu screenshot and generate the measured spec.md following our ImGui pipeline."*
+
+#### Method B: Local Filesystem Integration
+If using Claude Desktop with an MCP filesystem server, point Claude to this repository directory to read the reference guides and execute the analysis scripts.
+
+---
+
+### 3. Google Antigravity (AGY)
 
 Antigravity provides native first-class support for modular skills.
 
@@ -58,7 +123,7 @@ Place the folder in your project's agent directory:
    ```text
    /imgui-menu-clone
    ```
-3. The agent activates [SKILL.md](SKILL.md) and follows the pipeline autonomously.
+3. The agent activates [SKILL.md](SKILL.md) and executes the phases autonomously.
 
 #### How to Uninstall:
 ```powershell
@@ -67,37 +132,7 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini\config\skills\imgui-menu-c
 
 ---
 
-### 2. Claude Code
-
-Claude Code discovers skills placed in its local skills directory.
-
-#### Install Path:
-* **Windows**: `%USERPROFILE%\.claude\skills\imgui-menu-clone\`
-* **macOS / Linux**: `~/.claude/skills/imgui-menu-clone/`
-
-Copy the repository folder into your Claude skills directory:
-```powershell
-# Windows PowerShell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills"
-Copy-Item -Recurse -Force "imgui-menu-clone" "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
-```
-
-#### How to Use in Claude Code:
-1. Launch `claude`.
-2. Provide a screenshot path or paste an image:
-   ```text
-   Clone this menu screenshot into a Visual Studio project: path/to/menu_shot.png
-   ```
-3. Claude Code detects the skill via `SKILL.md` frontmatter and executes the workflow.
-
-#### How to Uninstall:
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
-```
-
----
-
-### 3. Cursor
+### 4. Cursor
 
 To integrate with Cursor Composer and Chat:
 
@@ -129,7 +164,7 @@ When the user asks to clone or rebuild an ImGui menu from a screenshot:
 
 ---
 
-### 4. OpenCode, Windsurf, Roo Code & Cline
+### 5. OpenCode, Windsurf, Roo Code & Cline
 
 For AI developer environments using custom rules or instructions:
 
@@ -167,6 +202,7 @@ Run `scripts/bootstrap_project.ps1 -Path <path> -Build` to scaffold a buildable 
 
 ```text
 imgui-menu-clone/
+├── LICENSE                      # MIT License (Sharim Ali)
 ├── SKILL.md                     # Core pipeline followed by AI agents
 ├── README.md                    # Multi-platform setup & usage guide
 ├── .gitignore                   # Ignores build artifacts and temporary files
@@ -211,6 +247,10 @@ Once built, open `D:\TestMenu\menu.sln` directly in Visual Studio 2022, press **
 
 ---
 
+## 👤 Author
+
+* **Sharim Ali** — [GitHub Profile](https://github.com/SharimAli)
+
 ## 📄 License
 
-Shared as-is for the developer community. Free to use, adapt, and integrate into any AI assistant or workflow.
+This project is licensed under the [MIT License](LICENSE) — free to use, modify, and distribute for personal and commercial projects.
