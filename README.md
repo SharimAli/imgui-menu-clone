@@ -8,7 +8,7 @@
 [![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%2B-purple.svg)](https://visualstudio.microsoft.com/)
 [![ImGui](https://img.shields.io/badge/Dear%20ImGui-v1.91.9b-orange.svg)](https://github.com/ocornut/imgui)
 
-**Author:** [Sharim Ali](https://github.com/SharimAli)  
+**Author:** [Sharim (GHX4T)](https://github.com/SharimAli)  
 **License:** [MIT License](LICENSE)
 
 ---
@@ -249,7 +249,7 @@ Once built, open `D:\TestMenu\menu.sln` directly in Visual Studio 2022, press **
 
 ## 👤 Author
 
-* **Sharim Ali** — [GitHub Profile](https://github.com/SharimAli)
+* **Sharim (GHX4T)** — [GitHub Profile](https://github.com/SharimAli)
 
 ## 📄 License
 

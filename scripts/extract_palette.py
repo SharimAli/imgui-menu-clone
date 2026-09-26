@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Extract exact colours from a menu screenshot.
-Author: Sharim Ali (https://github.com/SharimAli)
+Author: Sharim (GHX4T) (https://github.com/SharimAli)
 License: MIT
 
 Eyeballing a colour from an image is the number-one source of "looks 70% right"

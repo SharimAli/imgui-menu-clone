@@ -1,6 +1,6 @@
 // ============================================================================
 // ImGui Menu Clone — Theme & Metric Specification System
-// Author: Sharim Ali (https://github.com/SharimAli)
+// Author: Sharim (GHX4T) (https://github.com/SharimAli)
 // License: MIT
 // ============================================================================
 // ui/theme.h — the single source of truth for every colour and metric.

@@ -4,7 +4,7 @@
   project from the skill template: toolchain check, ImGui fetch, fonts, icon header,
   and optional first build via MSBuild.
 
-  Author: Sharim Ali (https://github.com/SharimAli)
+  Author: Sharim (GHX4T) (https://github.com/SharimAli)
   License: MIT
 
   NOTE: this file is deliberately ASCII-only. Windows PowerShell 5.1 reads .ps1

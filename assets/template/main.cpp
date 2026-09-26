@@ -1,6 +1,6 @@
 // ============================================================================
 // ImGui Menu Clone — Win32 + DirectX 11 Host Shell & Menu Layout
-// Author: Sharim Ali (https://github.com/SharimAli)
+// Author: Sharim (GHX4T) (https://github.com/SharimAli)
 // License: MIT
 // ============================================================================
 // main.cpp — host shell + menu layout.
