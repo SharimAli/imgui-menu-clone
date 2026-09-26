@@ -118,6 +118,11 @@ Stop when nothing in the checklist differs.
    reworked the font atlas. Code written for one breaks on the other.
 7. **State the fidelity ceiling honestly.** Fonts, icon glyphs and hover/active
    states cannot be recovered from a static image. Say what was inferred.
+8. **Never hardcode or assume the "Community" path.** The user's system runs
+   **Visual Studio 2022 Professional** (`C:\Program Files\Microsoft Visual Studio\2022\Professional`).
+   Never use hardcoded paths containing `\Community\`. Always let
+   `scripts/bootstrap_project.ps1` detect the installed Visual Studio via
+   `vswhere.exe`, which automatically locates `MSBuild.exe` in the Professional edition.
 
 ## Reference files
 

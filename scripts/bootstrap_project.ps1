@@ -40,14 +40,45 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) { $missing += 'Git.Git
 
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 $msbuild = $null
+$vsName = $null
 if (Test-Path $vswhere) {
-    $msbuild = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+    $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath | Select-Object -First 1
+    $vsName = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property displayName | Select-Object -First 1
+    if ($vsPath) {
+        $candidate = Join-Path $vsPath 'MSBuild\Current\Bin\MSBuild.exe'
+        if (Test-Path $candidate) { $msbuild = $candidate }
+    }
+    if (-not $msbuild) {
+        $msbuild = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+    }
+}
+if (-not $msbuild) {
+    # Check well-known paths (Professional first, then Enterprise, Community, BuildTools)
+    $wellKnown = @(
+        @{ Name = 'VS 2022 Professional'; Path = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" },
+        @{ Name = 'VS 2026 Professional'; Path = "${env:ProgramFiles}\Microsoft Visual Studio\2026\Professional\MSBuild\Current\Bin\MSBuild.exe" },
+        @{ Name = 'VS 2022 Enterprise';   Path = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" },
+        @{ Name = 'VS 2022 Community';    Path = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" },
+        @{ Name = 'VS 2022 BuildTools';   Path = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" }
+    )
+    foreach ($entry in $wellKnown) {
+        if (-not $msbuild -and (Test-Path $entry.Path)) {
+            $msbuild = $entry.Path
+            $vsName = $entry.Name
+        }
+    }
 }
 if (-not $msbuild) {
     $cmd = Get-Command msbuild -ErrorAction SilentlyContinue
     if ($cmd) { $msbuild = $cmd.Source }
 }
-if (-not $msbuild) { $missing += 'Microsoft.VisualStudio.2022.BuildTools' }
+
+if ($msbuild) {
+    Info "Detected Visual Studio: $(if ($vsName) { $vsName } else { 'Custom' })"
+    Info "Using MSBuild: $msbuild"
+} else {
+    $missing += 'Microsoft.VisualStudio.2022.BuildTools'
+}
 
 if ($missing.Count) {
     Warn "Missing toolchain components: $($missing -join ', ')"
