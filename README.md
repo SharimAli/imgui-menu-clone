@@ -5,7 +5,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://microsoft.com/windows)
-[![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%2B-purple.svg)](https://visualstudio.microsoft.com/)
+[![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%20%2F%202026-purple.svg)](https://visualstudio.microsoft.com/)
 [![ImGui](https://img.shields.io/badge/Dear%20ImGui-v1.91.9b-orange.svg)](https://github.com/ocornut/imgui)
 
 **Author:** [Sharim (GHX4T)](https://github.com/SharimAli)  
@@ -164,7 +164,41 @@ When the user asks to clone or rebuild an ImGui menu from a screenshot:
 
 ---
 
-### 5. OpenCode, Windsurf, Roo Code & Cline
+### 5. OpenCode Desktop & CLI
+
+OpenCode supports custom modular skills, agent tools, and dedicated workspaces.
+
+#### Global Install (OpenCode Desktop & CLI):
+* **Windows**: `%USERPROFILE%\.opencode\skills\imgui-menu-clone\`
+* **macOS / Linux**: `~/.config/opencode/skills/imgui-menu-clone/`
+
+Run in PowerShell:
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.opencode\skills"
+Copy-Item -Recurse -Force "imgui-menu-clone" "$env:USERPROFILE\.opencode\skills\imgui-menu-clone"
+```
+
+#### Workspace Install (Project-scoped):
+Place the skill directly inside your repository:
+```text
+<your-project-root>\.opencode\skills\imgui-menu-clone\
+```
+
+#### How to Use in OpenCode Desktop:
+1. Open the **OpenCode Desktop Application**.
+2. Drag and drop your menu screenshot into the chat input or project workspace.
+3. Prompt OpenCode:
+   > *"Rebuild this ImGui menu into a native Visual Studio .sln project following the imgui-menu-clone pipeline."*
+4. OpenCode detects the skill procedure from `SKILL.md`, measures the image into `spec.md`, and scaffolds the project.
+
+#### How to Uninstall:
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\.opencode\skills\imgui-menu-clone"
+```
+
+---
+
+### 6. Windsurf, Roo Code & Cline
 
 For AI developer environments using custom rules or instructions:
 
@@ -191,7 +225,7 @@ Run `scripts/bootstrap_project.ps1 -Path <path> -Build` to scaffold a buildable 
 ## 🛠️ Requirements & Prerequisites
 
 * **Operating System**: Windows 10 / 11
-* **Compiler & Build Tools**: Visual Studio 2022 (Community, Professional, or Enterprise) or Visual Studio Build Tools with the **Desktop development with C++** workload.
+* **Compiler & Build Tools**: Visual Studio 2022 / 2026 (Community, Professional, or Enterprise) or Visual Studio Build Tools with the **Desktop development with C++** workload.
 * **Git**: Used by `bootstrap_project.ps1` to clone a pinned version of Dear ImGui into `vendor/imgui`.
 * **Python 3**: For running palette extraction and zoom-diff scripts.
   * *Note: The palette extractor has a built-in native PNG decoder. If you want to sample JPEG or WebP images, install Pillow: `pip install pillow`.*
@@ -202,7 +236,7 @@ Run `scripts/bootstrap_project.ps1 -Path <path> -Build` to scaffold a buildable 
 
 ```text
 imgui-menu-clone/
-├── LICENSE                      # MIT License (Sharim Ali)
+├── LICENSE                      # MIT License (Sharim (GHX4T))
 ├── SKILL.md                     # Core pipeline followed by AI agents
 ├── README.md                    # Multi-platform setup & usage guide
 ├── .gitignore                   # Ignores build artifacts and temporary files
