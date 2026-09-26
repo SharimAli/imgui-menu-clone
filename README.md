@@ -1,0 +1,216 @@
+# ImGui Menu Clone 🎨
+
+> **Rebuild any Dear ImGui menu in clean C++ from a single screenshot.**  
+> Give your AI assistant a screenshot of an ImGui menu. Get back a fully buildable, pixel-accurate native Visual Studio (`.sln`) C++ project. No access to the original source code needed.
+
+---
+
+## ⚡ Why This Skill Exists
+
+Asking an AI to "rebuild this menu" from a picture usually yields an approximate "70% right" result: recognizable layout, but wrong paddings, inaccurate corner radii, guessed RGB values, and incorrect widget geometry.
+
+This skill eliminates guessing through a **disciplined 5-phase pipeline**:
+
+```
+[ Screenshot ] ──▶ Phase 0: Bootstrap (.sln + Dear ImGui)
+               ──▶ Phase 1: Analyse (Exact RGB palette + pixel measurements)
+               ──▶ Phase 2: Checkpoint (User reviews & confirms spec.md)
+               ──▶ Phase 3: Generate (Theme table + layout + custom widgets)
+               ──▶ Phase 4: Compare (Build .exe ──▶ Screenshot ──▶ 4x Zoom Diff)
+```
+
+| Phase | What Happens |
+| :--- | :--- |
+| **0 · Project** | Bootstraps a clean Win32 + DirectX 11 + Dear ImGui native Visual Studio solution (`menu.sln`). |
+| **1 · Analyse** | Python script extracts exact bit-for-bit RGB values and pixel bounds into `spec.md`. |
+| **2 · Checkpoint** | AI pauses to verify `spec.md` with you before writing a line of C++. |
+| **3 · Generate** | Writes theme variables, layout structure, and any custom widgets. |
+| **4 · Compare** | Compiles `menu.exe` with MSBuild, captures the window, and runs 4x magnified side-by-side diffing against the reference. |
+
+---
+
+## 🚀 Integration Guide for Major AI Platforms
+
+This repository is designed to work seamlessly across all major AI coding platforms. Follow the setup instructions below for your assistant of choice:
+
+---
+
+### 1. Google Antigravity (AGY)
+
+Antigravity provides native first-class support for modular skills.
+
+#### Global Install (Available in all projects & conversations)
+Run in PowerShell:
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.gemini\config\skills"
+Copy-Item -Recurse -Force "imgui-menu-clone" "$env:USERPROFILE\.gemini\config\skills\imgui-menu-clone"
+```
+
+#### Workspace Install (Project-specific)
+Place the folder in your project's agent directory:
+```
+<your-project-root>\.agents\skills\imgui-menu-clone\
+```
+
+#### How to Use in Antigravity:
+1. Drag and drop or paste your menu screenshot into the chat canvas.
+2. Ask: *"Clone this ImGui menu into a new .sln project"* or invoke the slash command:
+   ```text
+   /imgui-menu-clone
+   ```
+3. The agent activates [SKILL.md](SKILL.md) and follows the pipeline autonomously.
+
+#### How to Uninstall:
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini\config\skills\imgui-menu-clone"
+```
+
+---
+
+### 2. Claude Code
+
+Claude Code discovers skills placed in its local skills directory.
+
+#### Install Path:
+* **Windows**: `%USERPROFILE%\.claude\skills\imgui-menu-clone\`
+* **macOS / Linux**: `~/.claude/skills/imgui-menu-clone/`
+
+Copy the repository folder into your Claude skills directory:
+```powershell
+# Windows PowerShell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills"
+Copy-Item -Recurse -Force "imgui-menu-clone" "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
+```
+
+#### How to Use in Claude Code:
+1. Launch `claude`.
+2. Provide a screenshot path or paste an image:
+   ```text
+   Clone this menu screenshot into a Visual Studio project: path/to/menu_shot.png
+   ```
+3. Claude Code detects the skill via `SKILL.md` frontmatter and executes the workflow.
+
+#### How to Uninstall:
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\imgui-menu-clone"
+```
+
+---
+
+### 3. Cursor
+
+To integrate with Cursor Composer and Chat:
+
+#### Setup via Cursor Rules:
+Create a rule file in your workspace at `.cursor/rules/imgui-menu-clone.mdc` (or add to `.cursorrules`):
+
+```markdown
+---
+description: Rebuild ImGui menus from screenshots into native Visual Studio solutions
+globs: **/*
+alwaysApply: false
+---
+
+When the user asks to clone or rebuild an ImGui menu from a screenshot:
+1. Follow the guidelines in `references/analysis-protocol.md` to measure coordinates and colors.
+2. Never invent colors: run `python scripts/extract_palette.py <image> --at X,Y` to get exact values.
+3. Use the template in `assets/template/` (Win32 + D3D11 + menu.sln).
+4. Run `powershell -ExecutionPolicy Bypass -File scripts/bootstrap_project.ps1 -Path <target-dir> -Build` to bootstrap.
+5. Always separate theme colors into `ui/theme.h` without hardcoding color literals inside widget functions.
+6. Verify geometry against `references/detail-checklist.md`.
+```
+
+#### How to Use in Cursor:
+1. Attach your reference image to Cursor Composer (`Ctrl+I` / `Cmd+I`) or Chat (`Ctrl+L` / `Cmd+L`).
+2. Type:
+   ```text
+   @imgui-menu-clone Rebuild this menu into a new Visual Studio C++ project
+   ```
+
+---
+
+### 4. OpenCode, Windsurf, Roo Code & Cline
+
+For AI developer environments using custom rules or instructions:
+
+#### Windsurf (`.windsurfrules`)
+Add the following snippet to your `.windsurfrules` file:
+```text
+When rebuilding ImGui menus from screenshots:
+- Follow imgui-menu-clone pipeline: Image -> Measured spec -> Checkpoint -> C++ -> Visual Compare.
+- Always probe colors using python scripts/extract_palette.py rather than guessing.
+- Keep custom widgets in namespace ui (do not modify imgui_widgets.cpp).
+- Build using MSBuild on menu.sln.
+```
+
+#### Cline & Roo Code (`.clinerules`)
+Place this repository in your workspace or tools folder and add to `.clinerules`:
+```markdown
+# ImGui Menu Clone Workflow
+Refer to `SKILL.md` and `references/` when asked to clone or design Dear ImGui interfaces.
+Run `scripts/bootstrap_project.ps1 -Path <path> -Build` to scaffold a buildable C++ project.
+```
+
+---
+
+## 🛠️ Requirements & Prerequisites
+
+* **Operating System**: Windows 10 / 11
+* **Compiler & Build Tools**: Visual Studio 2022 (Community, Professional, or Enterprise) or Visual Studio Build Tools with the **Desktop development with C++** workload.
+* **Git**: Used by `bootstrap_project.ps1` to clone a pinned version of Dear ImGui into `vendor/imgui`.
+* **Python 3**: For running palette extraction and zoom-diff scripts.
+  * *Note: The palette extractor has a built-in native PNG decoder. If you want to sample JPEG or WebP images, install Pillow: `pip install pillow`.*
+
+---
+
+## 📦 Project Structure
+
+```text
+imgui-menu-clone/
+├── SKILL.md                     # Core pipeline followed by AI agents
+├── README.md                    # Multi-platform setup & usage guide
+├── .gitignore                   # Ignores build artifacts and temporary files
+├── assets/
+│   └── template/                # Ready-to-build native Visual Studio project
+│       ├── menu.sln             # Visual Studio Solution (x64 Debug / Release)
+│       ├── menu.vcxproj         # C++17 Project (Win32, D3D11, dwmapi)
+│       ├── menu.vcxproj.filters # Solution Explorer filter hierarchy
+│       ├── main.cpp             # Host window + D3D11 bootstrap + layout
+│       └── ui/
+│           ├── theme.h          # Single source of truth for all colors & metrics
+│           ├── widgets.h/.cpp   # Custom widgets (Toggle, Slider, Combo, etc.)
+│           ├── anim.h/.cpp      # Frame-rate independent ImGuiID animations
+│           ├── shell_win32.h/.cpp # Borderless layered window with DWM blur
+│           └── themes/vision.h  # Worked real-world theme reference
+├── references/
+│   ├── analysis-protocol.md     # How a screenshot becomes a measured spec
+│   ├── detail-checklist.md      # Checklist separating 70% clones from 100% clones
+│   ├── widget-cookbook.md       # Recipes for custom controls not in ImGui core
+│   ├── animation.md             # Easing curves, transitions, and timing
+│   ├── icons.md                 # Icon fonts, glyph merging, and alignment
+│   └── pitfalls.md              # Common traps and failure modes
+└── scripts/
+    ├── bootstrap_project.ps1    # Checks tools, clones ImGui, downloads fonts, builds .sln
+    ├── extract_palette.py       # Reads bit-for-bit RGB values from reference pixels
+    ├── capture_window.ps1       # Launches menu.exe, grabs screenshot, closes window
+    └── crop_zoom.py             # Magnifies matched regions for pixel-level diffing
+```
+
+---
+
+## 💡 Quick Manual Test
+
+You can test the scaffolding script directly from PowerShell:
+
+```powershell
+# Bootstrap and build a test project into D:\TestMenu
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bootstrap_project.ps1 -Path "D:\TestMenu" -Build
+```
+
+Once built, open `D:\TestMenu\menu.sln` directly in Visual Studio 2022, press **F5**, and interact with the menu.
+
+---
+
+## 📄 License
+
+Shared as-is for the developer community. Free to use, adapt, and integrate into any AI assistant or workflow.

@@ -1,0 +1,38 @@
+# Visual Studio & MSBuild
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+build/
+bin/
+obj/
+x64/
+Debug/
+Release/
+
+# Compiled Binaries & Intermediates
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.tlog
+*.lastbuildstate
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Test / Capture artifacts
+shot.png
+render.png
+cmp.png
+knob.png
+
+# Bootstrapped vendor checkouts & downloaded fonts in template
+assets/template/vendor/
+assets/template/assets/fonts/
+assets/template/ui/IconsFontAwesome6.h
+vendor/
