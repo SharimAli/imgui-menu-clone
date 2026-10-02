@@ -1,0 +1,28 @@
+name: 🐛 Bug Report
+description: Report an issue with project bootstrapping, widget rendering, or helper scripts
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting a bug! Please fill out the details below.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: What AI assistant and OS are you using? (e.g. Antigravity, Claude Code, Cursor / Windows 11)
+      placeholder: Windows 11, Visual Studio 2022 Pro, Claude Code
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what went wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Terminal Logs / Error Output
+      description: Paste any error messages or MSBuild output here.
+      render: shell

@@ -1,0 +1,26 @@
+name: 🎨 Menu / Widget Recreation Request
+description: Share a screenshot of an ImGui menu you'd like added as a reference theme or widget recipe
+labels: ["menu-request"]
+body:
+  - type: markdown
+    attributes:
+      value: Share a menu screenshot you want converted or custom widget you'd like a recipe for!
+  - type: input
+    id: menu_name
+    attributes:
+      label: Menu Name / Source
+      placeholder: e.g. Vision Menu, Sleek Dark Dashboard
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details & Special Features
+      description: Describe any animated transitions, specific controls, or tabs.
+  - type: textarea
+    id: image_links
+    attributes:
+      label: Image Link or Upload
+      description: Attach screenshots or links to reference images.
+    validations:
+      required: true

@@ -1,0 +1,65 @@
+name: CI Build & Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-scripts:
+    name: Validate Python & Scripts
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pillow numpy
+
+      - name: Compile and validate Python scripts
+        run: |
+          python -m py_compile scripts/extract_palette.py
+          python -m py_compile scripts/crop_zoom.py
+
+      - name: Validate PowerShell scripts syntax
+        shell: powershell
+        run: |
+          $scripts = Get-ChildItem -Path "scripts/*.ps1"
+          foreach ($s in $scripts) {
+              Write-Host "Validating $($s.FullName)"
+              $errors = $null
+              [System.Management.Automation.Language.Parser]::ParseFile($s.FullName, [ref]$null, [ref]$errors) | Out-Null
+              if ($errors) {
+                  $errors | ForEach-Object { Write-Error $_ }
+                  exit 1
+              }
+          }
+
+  build-solution:
+    name: Build Visual Studio Template
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup test project and build
+        shell: powershell
+        run: |
+          $testDir = "D:\BuildTest"
+          powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bootstrap_project.ps1 -Path $testDir -Build
+          if (-not (Test-Path "$testDir\build\Release\menu.exe")) {
+              Write-Error "Build output menu.exe not found!"
+              exit 1
+          }
+          Write-Host "Build verified successfully: $testDir\build\Release\menu.exe"

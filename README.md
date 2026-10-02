@@ -3,13 +3,22 @@
 > **Rebuild any Dear ImGui menu in clean C++ from a single screenshot.**  
 > Give your AI assistant a screenshot of an ImGui menu. Get back a fully buildable, pixel-accurate native Visual Studio (`.sln`) C++ project. No access to the original source code needed.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://microsoft.com/windows)
-[![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%20%2F%202026-purple.svg)](https://visualstudio.microsoft.com/)
-[![ImGui](https://img.shields.io/badge/Dear%20ImGui-v1.91.9b-orange.svg)](https://github.com/ocornut/imgui)
+<div align="center">
 
-**Author:** [Sharim (GHX4T)](https://github.com/SharimAli)  
-**License:** [MIT License](LICENSE)
+[![CI Build](https://github.com/SharimAli/imgui-menu-clone/actions/workflows/ci.yml/badge.svg)](https://github.com/SharimAli/imgui-menu-clone/actions)
+[![Stars](https://img.shields.io/github/stars/SharimAli/imgui-menu-clone?style=flat-square&logo=github&color=gold)](https://github.com/SharimAli/imgui-menu-clone/stargazers)
+[![Forks](https://img.shields.io/github/forks/SharimAli/imgui-menu-clone?style=flat-square&logo=github&color=blue)](https://github.com/SharimAli/imgui-menu-clone/network/members)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg?style=flat-square&logo=windows)](https://microsoft.com/windows)
+[![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022%20%2F%202026-purple.svg?style=flat-square&logo=visualstudio)](https://visualstudio.microsoft.com/)
+[![ImGui](https://img.shields.io/badge/Dear%20ImGui-v1.91.9b-orange.svg?style=flat-square)](https://github.com/ocornut/imgui)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
+
+**Author:** [Sharim (GHX4T)](https://github.com/SharimAli) • **License:** [MIT License](LICENSE)
+
+</div>
+
+> ⭐ **If this project saves you hours of UI recreation, please consider dropping a Star on GitHub!** It helps the project reach more developers.
 
 ---
 
@@ -36,6 +45,23 @@ This skill eliminates guessing through a **disciplined 5-phase pipeline**:
 | **4 · Compare** | Compiles `menu.exe` with MSBuild, captures the window, and runs 4x magnified side-by-side diffing against the reference. |
 
 ---
+
+## 🧩 Built-in Custom Widgets & UI Features
+
+The template comes equipped with custom Dear ImGui widgets out of the box so you don't start from an empty canvas:
+
+| Widget / Feature | Highlights | Reference |
+| :--- | :--- | :--- |
+| **Animated Toggle** | Ring knob over dark track, custom travel & smooth approach easing | `ui::Toggle` |
+| **Slider (Int & Float)** | Overhanging pill knob, accent track fill up to leading edge | `ui::SliderInt` / `SliderFloat` |
+| **Dropdown Combo** | Custom three-bar caret affordance, styled popup overlay | `ui::Combo` |
+| **MultiCombo** | Width-based & count-based smart truncation (`...` / `…`) | `ui::MultiCombo` |
+| **Interactive Keybind** | Listening state (`...`), binds any `ImGuiKey`, Esc to clear | `ui::Keybind` |
+| **Color Picker** | Compact preview swatch, live recoloring of theme accent | `ui::ColorPicker` |
+| **Sidebar Tabs** | Icon + text layout, vertical accent indicator, cross-tab fade | `ui::Tab` |
+| **Card / GroupBox** | Accent-tinted rule line, translucent body (`alpha: 40`), solid header | `ui::BeginGroupBox` |
+| **Drop Shadow** | Quadratic alpha-ramp soft shadow (`ShadowRect`) without engine patch | `ui::ShadowRect` |
+| **DWM Window Blur** | Host borderless Win32 window with real `ACCENT_ENABLE_BLURBEHIND` | `ui::ApplyWindowBlur` |
 
 ## 🚀 Integration Guide for Major AI Platforms
 
@@ -278,6 +304,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bootstrap_project.ps
 ```
 
 Once built, open `D:\TestMenu\menu.sln` directly in Visual Studio 2022, press **F5**, and interact with the menu.
+
+---
+
+## 🤝 Contributing
+
+Contributions, widget recipes, and theme additions are warmly welcome!
+* Read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+* Feel free to submit an [Issue](https://github.com/SharimAli/imgui-menu-clone/issues) to report bugs or request new menu widget recipes.
+
+---
+
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=SharimAli/imgui-menu-clone&type=Date)](https://star-history.com/#SharimAli/imgui-menu-clone&Date)
 
 ---
 
