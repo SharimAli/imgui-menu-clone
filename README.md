@@ -1,4 +1,4 @@
-# ImGui Menu Clone 🎨!
+# ImGui Menu Clone 🎨
 
 > **Rebuild any Dear ImGui menu in clean C++ from a single screenshot.**  
 > Give your AI assistant a screenshot of an ImGui menu. Get back a fully buildable, pixel-accurate native Visual Studio (`.sln`) C++ project. No access to the original source code needed.
